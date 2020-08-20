@@ -1,0 +1,26 @@
+--- index.php	2020-07-22 18:28:14.000000000 +0200
++++ index-a.php	2020-08-20 11:12:52.000000000 +0200
+@@ -1,6 +1,22 @@
+ <?php
++    function isHttps()
++    {
++        if (array_key_exists("HTTPS", $_SERVER) && 'on' === $_SERVER["HTTPS"]) {
++            return true;
++        }
++        if (array_key_exists("SERVER_PORT", $_SERVER) && 443 === (int)$_SERVER["SERVER_PORT"]) {
++            return true;
++        }
++        if (array_key_exists("HTTP_X_FORWARDED_SSL", $_SERVER) && 'on' === $_SERVER["HTTP_X_FORWARDED_SSL"]) {
++            return true;
++        }
++        if (array_key_exists("HTTP_X_FORWARDED_PROTO", $_SERVER) && 'https' === $_SERVER["HTTP_X_FORWARDED_PROTO"]) {
++            return true;
++        }
++        return false;
++    }
+     $path = rtrim(str_replace('\\','/',dirname($_SERVER['PHP_SELF'])), '/');
+-    $url = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $path;
++    $url = ( isHttps() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $path;
+ ?>
+ <!doctype html>
+ <html class="no-js" lang="">

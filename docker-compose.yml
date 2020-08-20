@@ -1,0 +1,19 @@
+version: '2'
+services:
+  mariadb:
+    image: mariadb
+    environment:
+     - MYSQL_USER=opensupports
+     - MYSQL_PASSWORD=changeme
+     - MYSQL_DATABASE=opensupports
+     - MYSQL_RANDOM_ROOT_PASSWORD=true
+    volumes:
+     - ./database:/var/lib/mysql
+
+  website:
+    image: 'gamelaster/opensupports:latest'
+    restart: always
+    ports:
+      - "5543:80"
+    depends_on:
+      - mariadb
