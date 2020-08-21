@@ -14,8 +14,10 @@ RUN set -ex; \
 	rm -r opensupports.zip; \
 	a2enmod rewrite; \
 	chmod 777 /var/www/html/api/config.php /var/www/html/api/files; \
-	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff
+	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/; \
+	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
 
 
-
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]

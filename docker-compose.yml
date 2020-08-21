@@ -15,5 +15,9 @@ services:
     restart: always
     ports:
       - "5543:80"
+    environment:
+      - TIMEZONE=Europe/Bratislava
+    volumes:
+     - ./config:/config
     depends_on:
       - mariadb
