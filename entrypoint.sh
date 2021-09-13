@@ -11,10 +11,13 @@ echo "date.timezone=`cat /etc/timezone`" > /usr/local/etc/php/conf.d/timezone.in
 
 if [ ! -d /config ]; then
 	mkdir /config
-	if [ ! -f /config/config.php ]; then
-	    touch /config/config.php
-	fi
 fi
+
+if [ ! -f /config/config.php ]; then
+	touch /config/config.php
+	chmod 777 /config/config.php
+fi
+
 rm /var/www/html/api/config.php
 ln -s /config/config.php /var/www/html/api/config.php
 
