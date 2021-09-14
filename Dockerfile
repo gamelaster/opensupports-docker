@@ -1,8 +1,6 @@
-FROM php:7.2-apache
+FROM php:apache
 
-ENV URL https://github.com/opensupports/opensupports/releases/download/v4.8.0/opensupports_v4.8.0.zip
-
-COPY fix-https-reverse-proxy.diff /var/www/html
+ENV URL https://github.com/opensupports/opensupports/releases/download/v4.9.0/opensupports_v4.9.0.zip
 
 RUN set -ex; \
 	apt-get update; \
@@ -14,9 +12,13 @@ RUN set -ex; \
 	rm -r opensupports.zip; \
 	a2enmod rewrite; \
 	chmod 777 /var/www/html/api/config.php /var/www/html/api/files; \
-	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/; \
-	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
-
+	mv /var/www/html/index.php /var/www/html/append_index.php; \
+	echo "<?php if(getenv(\"HOST\", false) !== false) \$_SERVER['HTTP_HOST'] = getenv(\"HOST\", false); ?>" >> /var/www/html/prepend_index.php; \
+	cat /var/www/html/prepend_index.php >> /var/www/html/index.php; \
+	rm /var/www/html/prepend_index.php; \
+	cat /var/www/html/append_index.php >> /var/www/html/index.php; \
+	rm /var/www/html/append_index.php; \
+	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/;
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
