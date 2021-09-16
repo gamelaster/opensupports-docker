@@ -14,12 +14,6 @@ RUN set -ex; \
 	rm -r opensupports.zip; \
 	a2enmod rewrite; \
 	chmod 777 /var/www/html/api/config.php /var/www/html/api/files; \
-	mv /var/www/html/index.php /var/www/html/append_index.php; \
-	echo "<?php if(getenv(\"HOST\", false) !== false) \$_SERVER['HTTP_HOST'] = getenv(\"HOST\", false); ?>" >> /var/www/html/prepend_index.php; \
-	cat /var/www/html/prepend_index.php >> /var/www/html/index.php; \
-	rm /var/www/html/prepend_index.php; \
-	cat /var/www/html/append_index.php >> /var/www/html/index.php; \
-	rm /var/www/html/append_index.php; \
 	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/; \
 	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
 
