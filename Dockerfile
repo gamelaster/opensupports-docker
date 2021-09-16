@@ -1,6 +1,6 @@
 FROM php:7.2-apache
 
-ENV URL https://github.com/opensupports/opensupports/releases/download/v4.8.0/opensupports_v4.8.0.zip
+ENV URL https://github.com/opensupports/opensupports/releases/download/v4.9.0/opensupports_v4.9.0.zip
 
 COPY fix-https-reverse-proxy.diff /var/www/html
 
