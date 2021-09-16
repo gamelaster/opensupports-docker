@@ -13,7 +13,7 @@ After, open `docker-compose.yml`, and change `MYSQL_PASSWORD=changeme` line with
 docker-compose up -d
 ```
 
-In `docker-compose.yml`, if `HOST=hostname/endpoint` is set it will override the default hostname value.
+In `docker-compose.yml`, if `HOST=hostname` is set it will override the default hostname value.
 
 Now, browse to `http://yourip:5443/`, and proceed through installation. When it will ask for database credentials, fill it following:
 - MySQL Host: `mariadb`

@@ -1,6 +1,8 @@
-FROM php:apache
+FROM php:7.2-apache
 
 ENV URL https://github.com/opensupports/opensupports/releases/download/v4.9.0/opensupports_v4.9.0.zip
+
+COPY fix-https-reverse-proxy.diff /var/www/html
 
 RUN set -ex; \
 	apt-get update; \
@@ -18,7 +20,9 @@ RUN set -ex; \
 	rm /var/www/html/prepend_index.php; \
 	cat /var/www/html/append_index.php >> /var/www/html/index.php; \
 	rm /var/www/html/append_index.php; \
-	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/;
+	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/; \
+	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
+
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
