@@ -1,6 +1,9 @@
-FROM php:7.4-apache
+FROM php:7.4.30-apache-bullseye
 
-ENV URL https://github.com/opensupports/opensupports/releases/download/v4.11.0/opensupports_v4.11.0.zip
+ARG APP_VERSION=4.11.0
+ENV URL https://github.com/opensupports/opensupports/releases/download/v${APP_VERSION}/opensupports_v${APP_VERSION}.zip
+
+COPY fix-https-reverse-proxy.diff /var/www/html
 
 RUN set -ex; \
 	apt-get update; \
