@@ -1,6 +1,7 @@
-FROM php:7.2-apache
+FROM php:7.4.30-apache-bullseye
 
-ENV URL https://github.com/opensupports/opensupports/releases/download/v4.9.0/opensupports_v4.9.0.zip
+ARG APP_VERSION=4.11.0
+ENV URL https://github.com/opensupports/opensupports/releases/download/v${APP_VERSION}/opensupports_v${APP_VERSION}.zip
 
 COPY fix-https-reverse-proxy.diff /var/www/html
 
@@ -15,7 +16,7 @@ RUN set -ex; \
 	a2enmod rewrite; \
 	chmod 777 /var/www/html/api/config.php /var/www/html/api/files; \
 	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/; \
-	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
+    patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
 
 
 COPY entrypoint.sh /entrypoint.sh
