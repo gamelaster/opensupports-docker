@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-if [[ ! -z "$TIMEZONE" ]]
+if [[ -n "$TIMEZONE" ]]
 then
-  ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
-  echo $TIMEZONE > /etc/timezone
+  ln -snf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
+  echo "$TIMEZONE" > /etc/timezone
   dpkg-reconfigure -f noninteractive tzdata
 fi
-echo "date.timezone=`cat /etc/timezone`" > /usr/local/etc/php/conf.d/timezone.ini
+echo "date.timezone=$(cat /etc/timezone)" > /usr/local/etc/php/conf.d/timezone.ini
 
 if [ ! -d /config ]; then
 	mkdir /config

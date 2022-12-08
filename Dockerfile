@@ -1,8 +1,6 @@
-FROM php:7.2-apache
+FROM php:7.4-apache
 
-ENV URL https://github.com/opensupports/opensupports/releases/download/v4.9.0/opensupports_v4.9.0.zip
-
-COPY fix-https-reverse-proxy.diff /var/www/html
+ENV URL https://github.com/opensupports/opensupports/releases/download/v4.11.0/opensupports_v4.11.0.zip
 
 RUN set -ex; \
 	apt-get update; \
@@ -14,8 +12,7 @@ RUN set -ex; \
 	rm -r opensupports.zip; \
 	a2enmod rewrite; \
 	chmod 777 /var/www/html/api/config.php /var/www/html/api/files; \
-	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/; \
-	patch /var/www/html/index.php < /var/www/html/fix-https-reverse-proxy.diff;
+	chmod -R 777 /var/www/html/api/vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/;
 
 
 COPY entrypoint.sh /entrypoint.sh
