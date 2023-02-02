@@ -10,6 +10,9 @@ RUN set -ex; \
 	apt-get install -y unzip; \
 	docker-php-ext-install pdo_mysql; \
 	docker-php-ext-install mysqli; \
+	apt-get install -y libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*; \
+	docker-php-ext-configure imap --with-kerberos --with-imap-ssl; \
+	docker-php-ext-install imap; \
 	curl -fsSL -o opensupports.zip $URL; \
 	unzip opensupports.zip -d /var/www/html; \
 	rm -r opensupports.zip; \
